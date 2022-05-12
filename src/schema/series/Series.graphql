@@ -1,0 +1,22 @@
+type Series {
+  id: String
+  realtime_start: Int
+  realtime_end: Int
+  title: String
+  observation_start: Int
+  observation_end: Int
+  frequency: String
+  frequency_short: String
+  units: String
+  units_short: String
+  seasonal_adjustment: String
+  seasonal_adjustment_short: String
+  last_updated: Int
+  popularity: Int
+  notes: String
+}
+
+type Query {
+  "Get an economic data series"
+  series: [Series]
+}

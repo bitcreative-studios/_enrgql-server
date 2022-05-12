@@ -1,0 +1,59 @@
+"""
+FRED tags are attributes assigned to series
+"""
+type Tag {
+  name: String
+  group_i: String
+  notes: String
+  created: Int
+  popularity: Int
+  series_count: Int
+}
+
+enum TagGroupID {
+  "Frequency"
+  FREQ
+  "General or Concept"
+  GEN
+  "Geography"
+  GEO
+  "Geography Type"
+  GEOT
+  "Release"
+  RLS
+  "Seasonal Adjustment"
+  SEAS
+  "Source"
+  SRC
+  "Citation & Copyright"
+  CC
+}
+
+union TagsQueryResult = Tag | Series
+
+type Query {
+  "Get FRED tags or the series matching the given set of tags"
+  tags(
+    "A semicolon delimited list of tag names to only include in the response"
+    tag_names: String
+    "A semicolon delimited list of tag names that series match none of"
+    exclude_tag_names: String
+    "A tag group id to filter tags by type"
+    tag_group_id: TagGroupID
+    "The words to find matching tags with"
+    search_text: String
+    """
+    If true, return the tags assigned to series
+    that match all tags in the tag_names argument
+    and no tags in the optional exclude_tag_names argument
+    """
+    isRelated: Boolean = false
+    """
+    If true, return the series
+    matching all tags in the tag_names argument and
+    no tags in the exclude_tag_names argument.
+    This argument is mutually exclusive with the isRelated argument
+    """
+    series: Boolean
+  ): TagsQueryResult
+}
